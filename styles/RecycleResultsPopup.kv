@@ -1,0 +1,58 @@
+<RecycleResultsPopup>:
+  # ROLE: Display the results of the alignment and give the option to save the results in .txt file
+  # DISPLAY: Files inputs titles
+  #          Result of the alignment recycle view
+  #          Scores of the alignment labels
+  # INPUT: Close button
+  #        Save results button
+
+  title: "Results"
+  MainBoxLayout:
+    orientation: 'vertical'
+
+    BoxLayout:
+      # Title of the files
+      size_hint_y: 0.1
+      ResponsiveLabel:
+        text: "Upper sequence title:\n" + root.alignment.parameters.titleSeq1
+      ResponsiveLabel:
+        text: "Lower sequence title:\n" + root.alignment.parameters.titleSeq2
+    
+    RecycleView:  
+      # Result of the alignment
+      viewclass: 'Label'
+      data: [{'text': str(x)} for x in root.alignment.data_items]
+      RecycleGridLayout:
+        cols: 60
+        default_size: None, dp(26)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: 'lr-tb'
+    
+    GridLayout:
+      # Scores of the alignment
+      size_hint_y: 0.2
+      cols: 3
+      TextLabel:
+        text: "Total score: " + str(root.alignment.scoreAlignment)
+      TextLabel:
+        text: "Number of gaps: " + str(root.alignment.nbGap)
+      TextLabel:
+        text: "Number of matchs: " + str(root.alignment.nbMatch)
+      TextLabel:
+        text: "Number of missmatchs: " + str(root.alignment.nbMissmatch)
+      TextLabel:
+        text: "including " + str(root.alignment.nbMissmatchIntra) + " Intra bases"
+      TextLabel:
+        text: "and " + str(root.alignment.nbMissmatchExtra) + " Extra bases"
+    
+    BoxLayout:
+      # Save and close buttons
+      size_hint_y: 0.15
+      Button:
+        text: "Close"
+        on_release: root.dismiss()
+      Button:
+        text: "Save"
+        on_release: root.save_results()

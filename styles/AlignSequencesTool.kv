@@ -1,0 +1,156 @@
+#:kivy 2.0.0
+#:import Factory kivy.factory.Factory
+#:import pathsep os.path.sep
+
+<AlignSequencesTool>:
+  # ROLE: Style of the class of the main widget (the UI)
+  # DISPLAY: Title of the app
+  #          Points settings labels
+  #          File selected labels
+  # INPUTS: Points settings text inputs
+  #         Points setting reset buttons
+  #         File input open buttons
+  #         File input show buttons
+  #         File input reset buttons
+  #         Help button
+  #         Launch button
+
+  #Set the default name to the files input
+  fileName1: root.pathToFile1.split(pathsep)[-1]
+  fileName2: root.pathToFile2.split(pathsep)[-1]
+  
+  orientation: 'vertical'
+  padding: 20, 20
+
+  ResponsiveLabel:
+    # Title of the app
+    text: "Needleman & Wunsch"
+    size_hint_y: 0.2
+    font_size: 30
+    font_name: 'assets/fonts/ProductSans-Black.ttf'
+
+  
+  BoxLayout:
+    # First row of the UI : The setting of the points
+
+    OptionBoxLayout:
+      # Points for a Match
+      orientation: 'vertical'
+      OptionLabel:
+        text: "Points Match"
+      TextInput:
+        id: input_points_match
+        text: "2"        
+      OptionButton:
+        text: "Default (2)"
+        on_release: root.ids.input_points_match.text = "2"
+          
+
+    OptionBoxLayout:
+      # Points for a missmatch intra bases
+      orientation: 'vertical'
+      OptionLabel:
+        text: "Points Missmatch Intra"
+      TextInput:
+        id: input_points_missmatch_intra
+        text: "1"
+      OptionButton:
+        text: "Default (1)"
+        on_release: root.ids.input_points_missmatch_intra.text = "1"
+    
+
+    OptionBoxLayout:
+      # Points for a missmatch extra bases
+      orientation: 'vertical'
+      OptionLabel:
+        text: "Points Missmatch Extra"
+      TextInput:
+        id: input_points_missmatch_extra
+        text: "-1"
+      OptionButton:
+        text: "Default (-1)"
+        on_release: root.ids.input_points_missmatch_extra.text = "-1"
+
+
+    OptionBoxLayout:
+      # Points for a gap opening
+      orientation: 'vertical'
+      OptionLabel:
+        text: "Points Opening Gap"
+      TextInput:
+        id: input_points_opening_gap
+        text: "-10"
+      OptionButton:
+        text: "Default (-10)"
+        on_release: root.ids.input_points_opening_gap.text = "-10"
+
+
+    OptionBoxLayout:
+      # Points for a gap extensive
+      orientation: 'vertical'
+      OptionLabel:
+        text: "Points Extensive Gap"
+      TextInput:
+        id: input_points_extensive_gap
+        text: "-1"
+      OptionButton:
+        text: "Default (-1)"
+        on_release: root.ids.input_points_extensive_gap.text = "-1"
+
+
+  BoxLayout:
+    # Second row of the UI : The files input
+
+    BoxLayout:
+      # File input 1
+      orientation: 'vertical'
+      Button:
+        text: "Choose fasta file 1"
+        on_release: root.open_file_input(1)
+      BoxLayout:
+        OptionLabel:
+          text: root.fileName1
+        BoxLayout:
+          orientation: 'vertical'
+          size_hint_x: 0.2
+          OptionButton:
+            text: "Show"
+            on_release: root.show_file_content(1)
+          OptionButton:
+            text: "Reset"
+            on_release:
+              root.pathToFile1 = "demo_files" + pathsep + "fichier1.fasta"
+              root.fileName1 = root.pathToFile1.split(pathsep)[-1]
+            
+
+    BoxLayout:
+      # File input 2
+      orientation: 'vertical'
+      Button:
+        text: "Choose fasta file 2"
+        on_release: root.open_file_input(2)
+      BoxLayout:
+        OptionLabel:
+          text: root.fileName2
+        BoxLayout:
+          orientation: 'vertical'
+          size_hint_x: 0.2
+          OptionButton:
+            text: "Show"
+            on_release: root.show_file_content(2)
+          OptionButton:
+            text: "Reset"
+            on_release: 
+              root.pathToFile2 = "demo_files" + pathsep + "fichier2.fasta"
+              root.fileName2 = root.pathToFile2.split(pathsep)[-1]
+
+
+  BoxLayout:
+    # Third and last row of the app : The help and launch Button
+    size_hint_y: 0.5
+    Button:
+      text: "Help"
+      on_release: Factory.TutorialPopup().open()
+    Button:
+      text: "Launch"
+      on_release: root.launch_alignment()

@@ -1,0 +1,53 @@
+#:import linesep os.linesep
+
+<TutorialPopup@Popup>:
+  # ROLE: Inform the user about how the application works
+  # DISPLAY: Instructions of the application
+  # INPUT: Close button
+
+  title: "Needleman & Wunsch algorithm help"
+  MainBoxLayout:
+    orientation: 'vertical'
+    
+    ScrollView:
+      # Application instructions
+      TextLabel:
+        halign: 'left'
+        size_hint_y: None
+        text: 
+          "Welcome to the Needleman & Wunsch application help!" + linesep\
+          + linesep\
+          + "This application realise the alignment of 2 DNA sequences from fasta files using the Needleman & Wunsch algorithm." + linesep\
+          + "It will also give you the score of the alignment, the number of matchs, missmatchs (intrabases or extrabases) and gap." + linesep\
+          + linesep\
+          + "How to use the app ?" + linesep\
+          + linesep\
+          + "Choose 2 fasta file with the buttons assigned to it." + linesep\
+          + "You can see the content of the file by clicking the 'Show' button." + linesep\
+          + "You can remove the file you choosed and set it to default by clicking the 'Reset' button." + linesep\
+          + "The content of a fasta file should look something like that:" + linesep\
+          + linesep\
+          + ">Name of the sequence" + linesep\
+          + "TGCATGCATGCATGCTGCATGCTATCAATCGATCAGCTAGGTGCATGCATGCATGCATGC" + linesep\
+          + "CATACTACGTTACGTGACTGCATGCATGCATGCATGACTGACTGACTGCATCATCAGTGC" + linesep\
+          + "TCATACTCAGTGCATGCATGCATCA" + linesep\
+          + linesep\
+          + "Then, set the points that will be added to the score when the algorithm encounter a match, missmatch or gap." + linesep\
+          + linesep\
+          + "To help you to set the points, here is the definition of each one:." + linesep\
+          + "- Match: when a nucleotide is in front of the same nucleotide" + linesep\
+          + "- Missmatch Intra: when a nucleotide is in front of a nucleotide from the same family (purine or pyrimidine)." + linesep\
+          + "- Missmatch Extra: when a nucleotide is in front of a nucleotide from a different family (purine or pyrimidine)." + linesep\
+          + "- Gap Opening: when a nucleotide is in front of a blank space that is the first one of a serie." + linesep\
+          + "- Gap Extending: when a nucleotide is in front of a blank space that is not the first of the serie." + linesep\
+          + linesep\
+          + "Once you're all set, simply press the 'Launch' button and here goes your alignment !" + linesep\
+          + "Then, you can download your results by simply pressing the 'Save' button" + linesep\
+          + linesep\
+          + "Enjoy ;)"
+    
+    Button:
+      # Close button
+      text: 'Close'
+      size_hint_y: 0.1
+      on_release: root.dismiss()

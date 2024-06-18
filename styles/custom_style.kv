@@ -1,0 +1,151 @@
+#:import hex kivy.utils.get_color_from_hex
+
+[FileIconEntry@Widget]:
+  # 'fasta' file and 'dna_results' folder icon in FileChooserIcon
+  locked: False
+  path: ctx.path
+  selected: self.path in ctx.controller().selection
+  size_hint: None, None
+
+  on_touch_down: self.collide_point(*args[1].pos) and ctx.controller().entry_touched(self, args[1])
+  on_touch_up: self.collide_point(*args[1].pos) and ctx.controller().entry_released(self, args[1])
+  size: '100dp', '100dp'
+
+  canvas:
+    Color:
+      rgba: 1, 1, 1, 1 if self.selected else 0
+    BorderImage:
+      border: 8, 8, 8, 8
+      pos: root.pos
+      size: root.size
+      source: 'atlas://data/images/defaulttheme/filechooser_selected'
+
+  Image:
+    size: '48dp', '48dp'
+    source: 
+      # Set condition for 'fasta' file and 'dna_results' folder display
+      'assets/alignment_folder.png' if ctx.name=='dna_results' \
+      else 'atlas://data/images/defaulttheme/filechooser_folder' if ctx.isdir \
+      else 'assets/fasta_file_icon.png' if ctx.name[-5::]=='fasta' \
+      else 'atlas://data/images/defaulttheme/filechooser_file'
+    pos: root.x + dp(24), root.y + dp(40)
+  Label:
+    text: ctx.name
+    text_size: (root.width, self.height)
+    halign: 'center'
+    shorten: True
+    size: '100dp', '16dp'
+    pos: root.x, root.y + dp(16)
+
+  Label:
+    text: '{}'.format(ctx.get_nice_size())
+    font_size: '11sp'
+    color: .8, .8, .8, 1
+    size: '100dp', '16sp'
+    pos: root.pos
+    halign: 'center'
+
+
+<Button,ResponsiveLabel@Label>:
+  size: self.texture_size
+  height: self.texture_size[1]
+  text_size: self.width, None
+  halign: 'center'
+  color: 0,0,0,1
+  bold: True
+
+
+<Label>:
+  color: 0,0,0,1
+
+
+<Button>:
+  color: 1,1,1,1
+  background_color: 0,0,0,0
+  background_normal: ''
+  canvas.before:
+    Color:
+      rgba: hex('#4285F4') if self.state=='normal' else hex('#1B66C8')
+    RoundedRectangle:
+      size: self.size#[0] - self.size[0]*0.05, self.size[1] - self.size[1]*0.1    # padding of 0.5 % (width) and 1% (height) of the button size
+      pos: self.pos#[0] + self.size[0]*0.025, self.pos[1] + self.size[1]*0.05     # centering the button
+      radius: [50]
+  font_name: 'assets/fonts/ProductSans-Black.ttf'
+
+
+<BoxLayout>:
+  spacing: 10
+  canvas.before:
+    Color:
+      rgba: hex('#FFFFFF')
+    Rectangle:
+      size: self.size
+      pos: self.pos
+
+
+<Popup>:
+  background_color: hex('#FFFFFF')
+  background: ''
+  separator_height: 0
+  title_size: 30
+  title_align: 'center'
+  title_color: 0,0,0,1
+  title_font: 'assets/fonts/ProductSans-Black.ttf'
+
+
+<TextInput>:
+  input_filter: 'float'
+  multiline: False
+  halign: 'center'
+  padding_y: [self.height / 2.0 - (self.line_height / 2.0) * len(self._lines), 0]
+  background_normal: 'atlas://data/images/defaulttheme/textinput_active'
+  cursor_color: hex('#4285F4')
+
+
+<TextLabel@ResponsiveLabel>:
+  bold: False
+
+
+<MainBoxLayout@BoxLayout>
+  padding: 10
+
+
+<OptionBoxLayout@MainBoxLayout>:
+  canvas.before:
+    Color:
+      rgba: hex('#FFFFFF')
+    RoundedRectangle:
+      size: self.size
+      pos: self.pos
+
+
+<OptionButton@Button>:
+  color: hex('#4285F4') if self.state=='normal' else hex('#174EA6')
+  canvas.before:
+    Color:
+      rgba: [1,1,1,1] if self.state=='normal' else hex('#F6FAFE')
+    RoundedRectangle:
+      size: self.size#[0] - self.size[0]*0.05, self.size[1] - self.size[1]*0.1    # padding of 0.5 % (width) and 1% (height) of the button size
+      pos: self.pos#[0] + self.size[0]*0.025, self.pos[1] + self.size[1]*0.05     # centering the button
+    Color:
+      rgba: hex('#DADCE0')
+    Line:
+      width: 1
+      rounded_rectangle: self.x, self.y, self.width, self.height, 10
+
+    
+<OptionLabel@ResponsiveLabel>:
+  bold: False
+  padding: 10, 10
+  font_family: 'Roboto'
+  canvas.before:
+    Color:
+      rgba: 1,1,1,1 
+    RoundedRectangle:
+      size: self.size#[0] - self.size[0]*0.05, self.size[1] - self.size[1]*0.1    # padding of 0.5 % (width) and 1% (height) of the button size
+      pos: self.pos#[0] + self.size[0]*0.025, self.pos[1] + self.size[1]*0.05     # centering the button
+    Color:
+      rgba: hex('#DADCE0')
+    Line:
+      width: 1
+      rounded_rectangle: self.x, self.y, self.width, self.height, 10

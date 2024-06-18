@@ -1,0 +1,25 @@
+#:import platform kivy.utils
+#:import os os
+
+<FileInputChooserPopup>:
+  # ROLE: Style of the file input chooser popup
+  # DISPLAY: Title of the popup
+  # INPUTS: File chooser icon view
+  #         Cancel button
+
+  size_hint: 0.9, 0.875
+  pos_y: 0
+  title: "Select fasta file"
+  MainBoxLayout:
+    orientation: "vertical"
+    
+    FileChooserIconView:
+      id: file_chooser
+      rootpath: "/storage/emulated/0" if platform.platform=='android' else os.environ['HOME']
+      path: "/storage/emulated/0" if platform.platform=='android' else os.environ['HOME']
+      on_submit: root.update_file_path()
+    
+    Button:
+      size_hint_y: 0.14
+      text: "Cancel"
+      on_release: root.dismiss()

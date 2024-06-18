@@ -1,0 +1,25 @@
+<RecycleInputPopup>:
+  # ROLE: Display the file title and its content
+  # DISPLAY: Title of the file
+  #          Content of the file recycle view
+  # INPUT: Close button
+
+  title_align: 'left'
+  MainBoxLayout:
+    orientation: 'vertical'
+    
+    RecycleView:
+      viewclass: 'Label'
+      data: [{'text': str(x)} for x in root.data_items]
+      RecycleGridLayout:
+        cols: 60
+        default_size: None, dp(26)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: 'lr-tb'
+    
+    Button:
+      text: "Close"
+      on_release: root.dismiss()
+      size_hint_y: 0.1

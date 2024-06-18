@@ -1,0 +1,15 @@
+<Notification>:
+  # ROLE: Display a notification when needed
+  # DISPLAY: Title of the notification
+  #          Message of the notification
+
+  size_hint: [0.6, 0.3]
+  BoxLayout:
+    orientation: 'vertical'
+    
+    ResponsiveLabel:
+      text: root.notificationText
+    
+    Button:
+      text: "Close"
+      on_release: root.dismiss()
